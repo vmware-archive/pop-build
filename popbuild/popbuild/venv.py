@@ -20,8 +20,9 @@ def create(hub, bname):
     else:
         py_bin = os.path.join(opts['venv_dir'], 'bin', 'python3')
     pip_cmd = f'{py_bin} -m pip '
-    #subprocess.run(f'{pip_cmd} install -r {opts["req"]}', shell=True)
-    subprocess.run(f'{pip_cmd} install {opts["dir"]}', shell=True)
+    subprocess.run(f'{pip_cmd} install -r {opts["req"]}', shell=True)
+    if os.path.isfile(os.path.join(opts['dir'], 'setup.py')):
+        subprocess.run(f'{pip_cmd} install {opts["dir"]}', shell=True)
     # Install old pycparser to fix: https://github.com/eliben/pycparser/issues/291 on Windows
     subprocess.run(f'{pip_cmd} install pycparser==2.14', shell=True)
     if opts['dev_pyinst']:
