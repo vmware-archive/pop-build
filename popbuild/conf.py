@@ -1,4 +1,9 @@
 CLI_CONFIG = {
+        'config': {
+            'options': ['-c'],
+            'default': '',
+            'help': 'Load extra options from a configuration file, this is useful when the project needs to use more advanced features like compiling c binaries into the environment.',
+            },
         'name': {
             'options': ['-n'],
             'default': None,
@@ -32,7 +37,26 @@ CLI_CONFIG = {
             'help': 'Use the latest development build of PyInstaller. This can fix issues on newer versions of python not yet supported by mainline releases.',
             },
         }
-CONFIG = {}
+CONFIG = {
+        'build': {
+            'default': False,
+            'help': '''Enter in commands to build a non-python binary into the deployed binary.
+            The build options are set on a named project basis. This allows for multiple shared
+            binaries to be embedded into the final build:
+            
+            build:
+              libsodium:
+                make:
+                   - wget libsodium
+                   - tar xvf libsodium*
+                   - cd libsodium
+                   - ./configure
+                   - make
+                src: libsodium/libsodium.so
+                dest: lib64/
+                '''
+            },
+        }
 GLOBAL = {}
 SUBS = {}
 DYNE = {}

@@ -79,6 +79,7 @@ def mk_requirements(hub, bname):
 def build(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False):
     bname = hub.popbuild.init.new(name, requirements, sys_site, exclude, directory, dev_pyinst)
     hub.popbuild.venv.create(bname)
+    hub.popbuild.build.make(bname)
     hub.popbuild.venv.scan(bname)
     hub.popbuild.venv.mk_adds(bname)
     hub.popbuild.inst.mk_spec(bname)
