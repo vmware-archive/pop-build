@@ -76,5 +76,6 @@ def call(hub, bname):
     dname = os.path.dirname(opts['s_path'])
     if not os.path.isdir(dname):
         os.makedirs(os.path.dirname(opts['s_path']))
+    print(os.getcwd())
     shutil.copy(opts['run'], opts['s_path'])
     subprocess.call(opts['cmd'], shell=True)

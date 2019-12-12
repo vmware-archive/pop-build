@@ -14,18 +14,19 @@ def cli(hub):
     '''
     Execute the routine from the CLI
     '''
-    hub.pop.conf.integrate(['popbuild'], cli='popbuild', roots=True)
-    hub.popbuild.init.build(
+    hub.pop.conf.integrate(['popbuild'], loader='yaml', cli='popbuild', roots=True)
+    hub.popbuild.init.builder(
             hub.OPT['popbuild']['name'],
             hub.OPT['popbuild']['requirements'],
             hub.OPT['popbuild']['system_site'],
             hub.OPT['popbuild']['exclude'],
             hub.OPT['popbuild']['directory'],
             hub.OPT['popbuild']['dev_pyinstaller'],
+            hub.OPT['popbuild']['build'],
             )
 
 
-def new(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False):
+def new(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False, build=None):
     venv_dir = tempfile.mkdtemp()
     is_win = os.name == 'nt'
     if is_win:
@@ -38,6 +39,7 @@ def new(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False)
     requirements = os.path.join(directory, requirements)
     hub.popbuild.BUILDS[bname] = {
             'name': name,
+            'build': build,
             'is_win': is_win,
             'exclude': exclude,
             'requirements': requirements,
@@ -66,6 +68,7 @@ def new(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False)
     hub.popbuild.BUILDS[bname]['req'] = req
     return bname
 
+
 def mk_requirements(hub, bname):
     opts = hub.popbuild.BUILDS[bname]
     req = os.path.join(opts['dir'], '__build_requirements.txt')
@@ -76,8 +79,8 @@ def mk_requirements(hub, bname):
     return req
 
 
-def build(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False):
-    bname = hub.popbuild.init.new(name, requirements, sys_site, exclude, directory, dev_pyinst)
+def builder(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False, build=None):
+    bname = hub.popbuild.init.new(name, requirements, sys_site, exclude, directory, dev_pyinst, build)
     hub.popbuild.venv.create(bname)
     hub.popbuild.build.make(bname)
     hub.popbuild.venv.scan(bname)
@@ -86,4 +89,3 @@ def build(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=Fals
     hub.popbuild.inst.call(bname)
     hub.popbuild.post.report(bname)
     hub.popbuild.post.clean(bname)
-
