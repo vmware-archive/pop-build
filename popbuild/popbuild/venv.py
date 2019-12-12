@@ -24,7 +24,8 @@ def create(hub, bname):
     if os.path.isfile(os.path.join(opts['dir'], 'setup.py')):
         subprocess.run(f'{pip_cmd} install {opts["dir"]}', shell=True)
     # Install old pycparser to fix: https://github.com/eliben/pycparser/issues/291 on Windows
-    subprocess.run(f'{pip_cmd} install pycparser==2.14', shell=True)
+    if opts['is_win']:
+        subprocess.run(f'{pip_cmd} install pycparser==2.14', shell=True)
     if opts['dev_pyinst']:
         # Install development version of pyinstaller to run on python 3.8
         subprocess.run(f'{pip_cmd} install https://github.com/pyinstaller/pyinstaller/tarball/develop', shell=True)
