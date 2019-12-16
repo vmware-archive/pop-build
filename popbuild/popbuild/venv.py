@@ -20,6 +20,8 @@ def create(hub, bname):
     else:
         py_bin = os.path.join(opts['venv_dir'], 'bin', 'python3')
     pip_cmd = f'{py_bin} -m pip '
+    # I am hardcoding this in for now, it should be removed when Python 3.8 has been out longer
+    subprocess.run(f'{pip_cmd} install distro', shell=True)
     subprocess.run(f'{pip_cmd} install -r {opts["req"]}', shell=True)
     if os.path.isfile(os.path.join(opts['dir'], 'setup.py')):
         subprocess.run(f'{pip_cmd} install {opts["dir"]}', shell=True)
