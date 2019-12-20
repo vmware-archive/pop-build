@@ -1,0 +1,8 @@
+build:
+  libsodium:
+    make:
+        - wget https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
+        - tar xvf LATEST.tar.gz
+        - cd libsodium-stable && ./configure && make
+    src: libsodium-stable/src/libsodium/.libs/libsodium.so
+    dest: lib/
