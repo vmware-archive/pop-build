@@ -54,12 +54,12 @@ Thats right! All you need outside of a `run.py` your python project likely alrea
 Pop-Build uses the setup.py and requirements.txt files to build the environment used.
 
 So assuming you have a standard python project defined, all you need to do is cd to that
-directory and run `popbuild`, in this example we will assume the application is called
+directory and run `pop-build`, in this example we will assume the application is called
 foo:
 
 .. code-block:: bash
 
-    popbuild -n foo
+    pop-build -n foo
 
 This will kick off the process and the resulting binary will be placed in `dist/foo`
 
@@ -68,7 +68,7 @@ Now that the binary is available it can be directly called.
 What Happened?
 --------------
 
-Pop-Build starts with the version of python that you exceuted `popbuild` with. This python
+Pop-Build starts with the version of python that you exceuted `pop-build` with. This python
 is the python that will be embeded in your binary. Next it creates a venv for your application.
 With the venv in hand, Pop-Build populates it. The venv is populated with all of the deps that
 are defined as requrements for the main application, including the application itself.
@@ -91,7 +91,7 @@ Using the Build Addon
 Many python projects require C libraries. How is it then, that
 the dynamic libs can be added to the final binary? Pop-Build has an answer to this.
 
-When running `popbuild` we can use a configuration file. This file allows for any option
+When running `pop-build` we can use a configuration file. This file allows for any option
 that would be passed on the cli to be defined, but also to define the routines for
 external builds.
 
