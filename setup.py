@@ -12,7 +12,7 @@ DESC = ('Pop\'s build system, used to build python projects')
 
 # Version info -- read without importing
 _locals = {}
-with open('{}/version.py'.format(NAME)) as fp:
+with open('popbuild/version.py') as fp:
     exec(fp.read(), None, _locals)
 VERSION = _locals['version']
 SETUP_DIRNAME = os.path.dirname(__file__)
@@ -34,7 +34,7 @@ class Clean(Command):
         pass
 
     def run(self):
-        for subdir in (NAME, 'tests'):
+        for subdir in ('popbuild', 'tests'):
             for root, dirs, files in os.walk(os.path.join(os.path.dirname(__file__), subdir)):
                 for dir_ in dirs:
                     if dir_ == '__pycache__':
@@ -52,9 +52,9 @@ def discover_packages():
 
 
 setup(name=NAME,
-      author='',
-      author_email='',
-      url='',
+      author='Thomas S Hatch',
+      author_email='thatch@saltstack.com',
+      url='http://github/saltstack/pop-build',
       version=VERSION,
       install_requires=REQUIREMENTS,
       description=DESC,
