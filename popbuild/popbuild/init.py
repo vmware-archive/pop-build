@@ -23,10 +23,23 @@ def cli(hub):
             hub.OPT['popbuild']['directory'],
             hub.OPT['popbuild']['dev_pyinstaller'],
             hub.OPT['popbuild']['build'],
+            hub.OPT['popbuild']['onedir'],
+            hub.OPT['popbuild']['pyenv']
             )
 
 
-def new(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False, build=None):
+def new(
+        hub,
+        name,
+        requirements,
+        sys_site,
+        exclude,
+        directory,
+        dev_pyinst=False,
+        build=None,
+        onedir=False,
+        pyenv='system',
+        ):
     venv_dir = tempfile.mkdtemp()
     is_win = os.name == 'nt'
     if is_win:
@@ -56,11 +69,12 @@ def new(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False,
             'imports': set(),
             'datas': set(),
             'cmd': f'{python_bin} -B -OO -m PyInstaller ',
+            'pyenv': pyenv,
             'pypi_args': [
                 s_path,
                 '--log-level=INFO',
                 '--noconfirm',
-                '--onefile',
+                '--onedir' if onedir else '--onefile',
                 '--clean',
                 ],
             }
@@ -79,8 +93,18 @@ def mk_requirements(hub, bname):
     return req
 
 
-def builder(hub, name, requirements, sys_site, exclude, directory, dev_pyinst=False, build=None):
-    bname = hub.popbuild.init.new(name, requirements, sys_site, exclude, directory, dev_pyinst, build)
+def builder(
+        hub,
+        name,
+        requirements,
+        sys_site,
+        exclude,
+        directory, 
+        dev_pyinst=False,
+        build=None,
+        onedir=False,
+        pyenv='system'):
+    bname = hub.popbuild.init.new(name, requirements, sys_site, exclude, directory, dev_pyinst, build, onedir, pyenv)
     hub.popbuild.venv.create(bname)
     hub.popbuild.build.make(bname)
     hub.popbuild.venv.scan(bname)

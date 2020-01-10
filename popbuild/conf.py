@@ -36,6 +36,15 @@ CLI_CONFIG = {
             'action': 'store_true',
             'help': 'Use the latest development build of PyInstaller. This can fix issues on newer versions of python not yet supported by mainline releases.',
             },
+        'onedir': {
+            'default': False,
+            'action': 'store_true',
+            'help': 'Instead of producing a single binary produce a directory with all components',
+            },
+        'pyenv': {
+            'default': 'system',
+            'help': 'Set the python version to build with, if not present the system python will be used. Only use CPython versions, to see available versions run `pyenv install --list | grep " 3\.[6789]"`',
+            },
         }
 CONFIG = {
         'build': {

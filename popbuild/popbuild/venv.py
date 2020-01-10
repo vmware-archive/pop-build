@@ -9,12 +9,34 @@ import subprocess
 OMIT = ('__pycache__', 'PyInstaller', 'pip', 'setuptools', 'pkg_resources', '__pycache__', 'dist-info', 'egg-info')
 
 
+def bin(hub, bname):
+    '''
+    Ensure that the desired binary version is present and return the path to
+    the python bin to call
+    '''
+    opts = hub.popbuild.BUILDS[bname]
+    root = subprocess.run('pyenv root', shell=True, capture_output=True).stdout.strip().decode()
+    avail = set()
+    for line in subprocess.run('pyenv versions', shell=True, capture_output=True).stdout.strip().decode().split('\n'):
+        avail.add(line.strip())
+    if opts['pyenv'] not in avail:
+        subprocess.run(f'env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {opts["pyenv"]}', shell=True)
+    return os.path.join(root, 'versions', opts['pyenv'], 'bin', 'python')
+
+
 def create(hub, bname):
     '''
     Make a virtual environment based on the version of python used to call this script
     '''
     opts = hub.popbuild.BUILDS[bname]
-    venv.create(opts['venv_dir'], clear=True, with_pip=True, system_site_packages=opts['sys_site'])
+    if opts['pyenv'] == 'system':
+        venv.create(opts['venv_dir'], clear=True, with_pip=True, system_site_packages=opts['sys_site'])
+    else:
+        env_bin = hub.popbuild.venv.bin(bname)
+        cmd = f'{env_bin} -m venv {opts["venv_dir"]} --clear '
+        if opts['sys_site']:
+            cmd += '--system-site-packages'
+        subprocess.run(cmd, shell=True)
     if opts['is_win']:
         py_bin = os.path.join(opts['venv_dir'], 'Scripts', 'python')
     else:

@@ -71,7 +71,7 @@ setup(name=NAME,
           ],
       entry_points={
         'console_scripts': [
-            'popbuild = popbuild.scripts:start',
+            'pop-build = popbuild.scripts:start',
             ],
           },
       packages=discover_packages(),
