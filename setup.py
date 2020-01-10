@@ -7,7 +7,7 @@ import sys
 import shutil
 from setuptools import setup, Command
 
-NAME = 'popbuild'
+NAME = 'pop-build'
 DESC = ('Pop\'s build system, used to build python projects')
 
 # Version info -- read without importing
