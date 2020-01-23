@@ -8,6 +8,7 @@ import shutil
 from setuptools import setup, Command
 
 NAME = 'pop-build'
+PYNAME = 'popbuild'
 DESC = ('Pop\'s build system, used to build python projects')
 
 # Version info -- read without importing
@@ -43,7 +44,7 @@ class Clean(Command):
 
 def discover_packages():
     modules = []
-    for package in (NAME, ):
+    for package in (PYNAME, ):
         for root, _, files in os.walk(os.path.join(SETUP_DIRNAME, package)):
             pdir = os.path.relpath(root, SETUP_DIRNAME)
             modname = pdir.replace(os.sep, '.')
