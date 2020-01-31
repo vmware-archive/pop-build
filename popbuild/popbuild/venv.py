@@ -20,7 +20,7 @@ def bin(hub, bname):
     for line in subprocess.run('pyenv versions', shell=True, capture_output=True).stdout.strip().decode().split('\n'):
         avail.add(line.strip())
     if opts['pyenv'] not in avail:
-        subprocess.run(f'env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {opts["pyenv"]}', shell=True)
+        subprocess.run(f'env PYTHON_CONFIGURE_OPTS="--enable-shared --enable-ipv6" pyenv install {opts["pyenv"]}', shell=True)
     return os.path.join(root, 'versions', opts['pyenv'], 'bin', 'python')
 
 
@@ -54,7 +54,7 @@ def create(hub, bname):
         # Install development version of pyinstaller to run on python 3.8
         subprocess.run(f'{pip_cmd} install https://github.com/pyinstaller/pyinstaller/tarball/develop', shell=True)
     else:
-        subprocess.run(f'{pip_cmd} install PyInstaller==3.5', shell=True)
+        subprocess.run(f'{pip_cmd} install PyInstaller==3.6', shell=True)
     subprocess.run(f'{pip_cmd} uninstall -y -r {opts["exclude"]}', shell=True)
 
 

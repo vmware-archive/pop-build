@@ -14,7 +14,7 @@ block_cipher = None
 
 a = Analysis([r'{s_path}'],
              pathex=[r'{cwd}'],
-             binaries=[],
+             binaries={binaries},
              datas={datas},
              hiddenimports={imports},
              hookspath=[],
@@ -65,6 +65,7 @@ def mk_spec(hub, bname):
         datas.append((src, dst))
     kwargs['datas'] = datas.__repr__()
     kwargs['imports'] = imps.__repr__()
+    kwargs['binaries'] = opts['binaries'].__repr__()
     spec = SPEC.format(**kwargs)
     with open(opts['spec'], 'w+') as wfh:
         wfh.write(spec)
