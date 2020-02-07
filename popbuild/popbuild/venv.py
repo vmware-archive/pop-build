@@ -15,9 +15,9 @@ def bin(hub, bname):
     the python bin to call
     '''
     opts = hub.popbuild.BUILDS[bname]
-    root = subprocess.run('pyenv root', shell=True, capture_output=True).stdout.strip().decode()
+    root = subprocess.run('pyenv root', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.strip().decode()
     avail = set()
-    for line in subprocess.run('pyenv versions', shell=True, capture_output=True).stdout.strip().decode().split('\n'):
+    for line in subprocess.run('pyenv versions', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.strip().decode().split('\n'):
         avail.add(line.strip())
     if opts['pyenv'] not in avail:
         subprocess.run(f'env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {opts["pyenv"]}', shell=True)
