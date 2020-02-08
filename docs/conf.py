@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pop-build'
-copyright = '2019, Thomas S Hatch'
+copyright = '2020, Thomas S Hatch'
 author = 'Thomas S Hatch'
 
 # The full version, including alpha/beta/rc tags
-release = '1'
+release = '1.2'
 
 
 # -- General configuration ---------------------------------------------------
