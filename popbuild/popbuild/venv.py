@@ -15,12 +15,12 @@ def bin(hub, bname):
     the python bin to call
     '''
     opts = hub.popbuild.BUILDS[bname]
-    root = subprocess.run('pyenv root', shell=True, capture_output=True).stdout.strip().decode()
+    root = subprocess.run('pyenv root', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.strip().decode()
     avail = set()
-    for line in subprocess.run('pyenv versions', shell=True, capture_output=True).stdout.strip().decode().split('\n'):
+    for line in subprocess.run('pyenv versions', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.strip().decode().split('\n'):
         avail.add(line.strip())
     if opts['pyenv'] not in avail:
-        subprocess.run(f'env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {opts["pyenv"]}', shell=True)
+        subprocess.run(f'env PYTHON_CONFIGURE_OPTS="--enable-shared --enable-ipv6" pyenv install {opts["pyenv"]}', shell=True)
     return os.path.join(root, 'versions', opts['pyenv'], 'bin', 'python')
 
 
@@ -54,7 +54,7 @@ def create(hub, bname):
         # Install development version of pyinstaller to run on python 3.8
         subprocess.run(f'{pip_cmd} install https://github.com/pyinstaller/pyinstaller/tarball/develop', shell=True)
     else:
-        subprocess.run(f'{pip_cmd} install PyInstaller==3.5', shell=True)
+        subprocess.run(f'{pip_cmd} install PyInstaller==3.6', shell=True)
     subprocess.run(f'{pip_cmd} uninstall -y -r {opts["exclude"]}', shell=True)
 
 
