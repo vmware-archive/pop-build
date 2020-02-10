@@ -2,6 +2,18 @@
 Pop-Build
 =========
 
+MOVED TO GITLAB
+===============
+
+POP projects developed by Saltstack are being moved to Gitlab.
+
+The new location of idem is here:
+
+https://gitlab.com/saltstack/pop/pop-build
+
+Intro
+=====
+
 Pop-Build is the single binary builder for pop projects. While it is written with
 the intention of supporting pop projects it can be used with any python project.
 
